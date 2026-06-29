@@ -22,7 +22,7 @@ export default function SummaryCards({ consumedCalories, remainingCalories , dai
                     <div>
                         <p className='text-purple-300 text-sm font-medium tracking-wide'>Daily Goal</p>
 
-                        <p className='text-4xl font-bold text-purple-400 mt-2 hidden'>{dailyGoal} Kcal</p>
+                        <p className='text-4xl font-bold text-purple-400 mt-2'>{dailyGoal} Kcal</p>
                     </div>
                     <div className='p-4 bg-purple-500/20 rounded-2xl'>
                         <Target className='w-8 h-8 text-purple-400' />

@@ -20,7 +20,7 @@ export default function Dashboard({ transactions, setTransactions }) {
     const dailyGoal = profile?.dailyGoal
     // calculate total Income & total expenses
     const consumedCalories = transactions.filter((trans) => trans.date === today).reduce((sum, exp) => sum + Number(exp.amount), 0)
-    const remainingCalories = Number(consumedCalories) - Number(dailyGoal)
+    const remainingCalories = Number(dailyGoal) - Number(consumedCalories);
     
     return <>
         <div className='min-h-screen bg-linear-to-br from-zinc-950 via-slate-900 to-emerald-900 p-4'>
