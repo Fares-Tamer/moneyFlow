@@ -10,6 +10,7 @@ export default function AddExpensesForm({ formData, setFormData, editingId, tran
         date: "",
         type: "",
     })
+    
     const validateForm = () => {
         const newErrors = {};
         if (!formData.description.trim()) {
