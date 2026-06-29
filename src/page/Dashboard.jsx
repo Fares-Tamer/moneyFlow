@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import SummaryCards from '../Components/summaryCards'
+
 import Header from '../Components/Header'
 import AddExpensesForm from '../Components/AddExpensesForm'
 import FilterTab from '../Components/FilterTab'
 import ExpensesList from '../Components/ExpensesList'
+import SummaryCards from '../Components/SummaryCards'
 export default function Dashboard({ transactions, setTransactions }) {
     const [formData, setFormData] = useState({
         description: "",
