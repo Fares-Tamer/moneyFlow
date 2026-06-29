@@ -34,7 +34,7 @@ export default function SummaryCards({ consumedCalories, remainingCalories , dai
                     <div>
                         <p className={`${remainingCalories >= 0 ? " text-emerald-300" : "text-red-300"} text-sm font-medium tracking-wide`}>Remaining Calories</p>
 
-                        <p className={`${remainingCalories >= 0 ? "text-emerald-400" : "text-red-400"} text-4xl font-bold mt-2`}>{Math.abs(remainingCalories)} Kcal</p>
+                        <p className={`${remainingCalories >= 0 ? "text-emerald-400" : "text-red-400"} text-4xl font-bold mt-2`}>{remainingCalories} Kcal</p>
                     </div>
                     <div className={`p-4 shadow-3xl rounded-2xl ${remainingCalories >= 0 ? "bg-emerald-500/20" : "bg-red-500/20"}`}>
                         {

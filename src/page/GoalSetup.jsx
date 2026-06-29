@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Activity, CalendarDays, ChevronRight, User, Users } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
@@ -72,18 +72,18 @@ export default function GoalSetup({ formData, setFormData, isEditGoal, setIsEdit
         setTouched((prev) => ({ ...prev, [name]: true }))
     }
 
-    const calculateDailyGoal = () => {
+    const calculateDailyGoal = (data) => {
         // Convert string values to numbers
-        const currentWeight = Number(formData.currentWeight);
-        const targetWeight = Number(formData.targetWeight);
-        const height = Number(formData.height);
-        const age = Number(formData.age);
-        const targetDuration = Number(formData.targetDuration);
+        const currentWeight = Number(data.currentWeight);
+        const targetWeight = Number(data.targetWeight);
+        const height = Number(data.height);
+        const age = Number(data.age);
+        const targetDuration = Number(data.targetDuration);
 
         // 1) Calculate BMR (Mifflin-St Jeor Equation)
         let bmr;
 
-        if (formData.gender === "male") {
+        if (data.gender === "male") {
             bmr = (10 * currentWeight) + (6.25 * height) - (5 * age) + 5;
         } else {
             bmr = (10 * currentWeight) + (6.25 * height) - (5 * age) - 161;
@@ -99,11 +99,11 @@ export default function GoalSetup({ formData, setFormData, isEditGoal, setIsEdit
         };
 
         const maintenanceCalories =
-            bmr * activityFactors[formData.activityLevel];
+            bmr * activityFactors[data.activityLevel];
 
         // 3) Convert duration to days
         const days =
-            formData.durationUnit === "weeks"
+            data.durationUnit === "weeks"
                 ? targetDuration * 7
                 : targetDuration * 30;
 
@@ -125,10 +125,10 @@ export default function GoalSetup({ formData, setFormData, isEditGoal, setIsEdit
             targetWeight,
             height,
             age,
-            gender: formData.gender,
-            activityLevel: formData.activityLevel,
+            gender: data.gender,
+            activityLevel: data.activityLevel,
             targetDuration,
-            durationUnit: formData.durationUnit,
+            durationUnit: data.durationUnit,
             bmr: Math.round(bmr),
             maintenanceCalories: Math.round(maintenanceCalories),
             dailyGoal,
@@ -140,43 +140,49 @@ export default function GoalSetup({ formData, setFormData, isEditGoal, setIsEdit
     };
 
     const updateGoal = () => {
-        setFormData({
+        const updatedData = {
             ...formData,
-            currentWeight: parseFloat(formData.currentWeight) || 0,
-            targetWeight: parseFloat(formData.targetWeight) || 0,
-            height: parseFloat(formData.height) || 0,
-            age: parseInt(formData.age) || 0,
-            targetDuration: parseFloat(formData.targetDuration) || 0,
-        })
+            currentWeight: Number(formData.currentWeight),
+            targetWeight: Number(formData.targetWeight),
+            height: Number(formData.height),
+            age: Number(formData.age),
+            targetDuration: Number(formData.targetDuration),
+        };
+
+        setFormData(updatedData);
+
+        const result = calculateDailyGoal(updatedData);
+
+        localStorage.setItem(
+            "profileResult",
+            JSON.stringify(result)
+        );
+
         setIsEditGoal(false);
-    }
+    };
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        setSubmitAttempted(true)
-        setTouched({
-            currentWeight: true,
-            targetWeight: true,
-            height: true,
-            age: true,
-            gender: true,
-            activityLevel: true,
-            targetDuration: true,
-        })
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-        if (hasErrors) {
-            return
-        }
+        setSubmitAttempted(true);
+
+        if (hasErrors) return;
+
+        const result = calculateDailyGoal(formData);
+
         if (isEditGoal) {
-            updateGoal();
+            setIsEditGoal(false);
         }
-        const result = calculateDailyGoal();
-        navigate("/dashboard")
+
+        navigate("/dashboard");
+    };
+    useEffect(() => {
         window.scrollTo({
             top: 0,
-            behavior: "smooth"
-        })
-    }
+            behavior: "smooth",
+        });
+    }, []);
+
 
     return (
         <div className="min-h-screen bg-linear-to-br from-zinc-950 via-slate-900 to-emerald-950 px-4 py-10 sm:px-6 lg:px-8">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
     User2,
@@ -18,7 +18,7 @@ import {
     ArrowLeft
 } from 'lucide-react'
 
-export default function ProfilePage({ setFormData , setIsEditGoal }) {
+export default function ProfilePage({ setFormData, setIsEditGoal }) {
     const navigate = useNavigate()
     const [showConfirm, setShowConfirm] = useState(false)
 
@@ -42,8 +42,19 @@ export default function ProfilePage({ setFormData , setIsEditGoal }) {
 
     const handleResetEverything = () => {
         localStorage.clear()
+        setFormData({
+            currentWeight: '',
+            targetWeight: '',
+            height: '',
+            age: '',
+            gender: 'male',
+            activityLevel: 'sedentary',
+            targetDuration: '',
+            durationUnit: 'weeks',
+        });
         setShowConfirm(false)
         navigate('/')
+
     }
 
     const getGenderIcon = () => {
@@ -99,14 +110,18 @@ export default function ProfilePage({ setFormData , setIsEditGoal }) {
             activityLevel: userProfile.activityLevel,
             targetDuration: userProfile.targetDuration,
             durationUnit: userProfile.durationUnit,
-        }) 
+        })
         navigate('/')
+        setIsEditGoal(true)
+    }
+
+
+    useEffect(() => {
         window.scrollTo({
             top: 0,
             behavior: "smooth",
         });
-        setIsEditGoal(true)
-    }
+    }, []);
 
     return (
         <div className="min-h-screen relative bg-linear-to-br from-zinc-950 via-slate-900 to-emerald-950 p-4 sm:p-6 lg:p-8">

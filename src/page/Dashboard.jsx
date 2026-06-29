@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Header from '../Components/Header'
 import AddExpensesForm from '../Components/AddExpensesForm'
@@ -21,7 +21,14 @@ export default function Dashboard({ transactions, setTransactions }) {
     // calculate total Income & total expenses
     const consumedCalories = transactions.filter((trans) => trans.date === today).reduce((sum, exp) => sum + Number(exp.amount), 0)
     const remainingCalories = Number(dailyGoal) - Number(consumedCalories);
-    
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    }, []);
+
     return <>
         <div className='min-h-screen bg-linear-to-br from-zinc-950 via-slate-900 to-emerald-900 p-4'>
             <div className='max-w-7xl mx-auto'>
