@@ -82,7 +82,7 @@ export default function ExpensesList({ setTransactions, transactions, filterTap,
 
 
     return <>
-        <div className='p-8 max-h-100 overflow-y-auto'>
+        <div className='p-8 max-h-120 overflow-y-auto'>
             {
                 transactions?.length === 0 ? (
                     <div className='text-center py-16'>

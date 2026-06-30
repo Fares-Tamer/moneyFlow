@@ -35,10 +35,10 @@ export default function Dashboard({ transactions, setTransactions }) {
                 <Header />
                 <SummaryCards dailyGoal={dailyGoal} consumedCalories={consumedCalories} remainingCalories={remainingCalories} />
                 <div className='grid grid-cols-1 xl:grid-cols-5 gap-6'>
-                    <div className='xl:col-span-2'>
+                    <div className='order-2 md:order-1 xl:col-span-2'>
                         <AddExpensesForm formData={formData} setFormData={setFormData} editingId={editingId} transactions={transactions} setTransactions={setTransactions} setEditingId={setEditingId} id={id} />
                     </div>
-                    <div className='xl:col-span-3'>
+                    <div className='order-1 md:order-2 xl:col-span-3'>
                         <div className='bg-white/5 backdrop-blur-lg rounded-3xl border border-white/10 shadow-xl overflow-hidden'>
                             {/* Filter options */}
 
